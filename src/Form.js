@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import './Form.css';
 
 const Form = () => {
-  // Form state
+  // State to hold form field values
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -17,108 +17,112 @@ const Form = () => {
     aadharNumber: ''
   });
 
-  // Regex declarations (declare at the top of the function)
+  // Regular expressions for validating input fields
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const usernameRegex = /^[a-z]+$/;
   const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
   const aadharRegex = /^\d{12}$/;
   const phoneAlphaRegex = /[a-zA-Z]/;
 
-  // Error state
+  // State to hold validation error messages
   const [errors, setErrors] = useState({});
   
-  // Show/hide password state
+  // State to toggle password visibility
   const [showPassword, setShowPassword] = useState(false);
   
-  // Success state
+  // State to track if the form has been submitted successfully
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Validation function
+  // Function to validate all form fields and set error messages
   const validateForm = () => {
-  const newErrors = {};
+    const newErrors = {};
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const usernameRegex = /^[a-z]+$/;
-  const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-  const aadharRegex = /^\d{12}$/;
-  const phoneAlphaRegex = /[a-zA-Z]/;
+    // Regular expressions redeclared here (could reuse above)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const usernameRegex = /^[a-z]+$/;
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+    const aadharRegex = /^\d{12}$/;
+    const phoneAlphaRegex = /[a-zA-Z]/;
 
-  // First Name validation
-  if (!formData.firstName.trim()) {
-    newErrors.firstName = 'First name is required';
-  } else if (formData.firstName.length < 2) {
-    newErrors.firstName = 'First name must be at least 2 characters';
-  }
+    // First Name validation: required and minimum length 2
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    } else if (formData.firstName.length < 2) {
+      newErrors.firstName = 'First name must be at least 2 characters';
+    }
 
-  // Last Name validation
-  if (!formData.lastName.trim()) {
-    newErrors.lastName = 'Last name is required';
-  } else if (formData.lastName.length < 2) {
-    newErrors.lastName = 'Last name must be at least 2 characters';
-  }
+    // Last Name validation: required and minimum length 2
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    } else if (formData.lastName.length < 2) {
+      newErrors.lastName = 'Last name must be at least 2 characters';
+    }
 
-  // Username validation
-  if (!formData.username.trim()) {
-    newErrors.username = 'Username is required';
-  } else if (!usernameRegex.test(formData.username)) {
-    newErrors.username = 'Username must be lowercase letters only, no spaces';
-  }
+    // Username validation: required and only lowercase letters, no spaces
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required';
+    } else if (!usernameRegex.test(formData.username)) {
+      newErrors.username = 'Username must be lowercase letters only, no spaces';
+    }
 
-  // Email validation
-  if (!formData.email.trim()) {
-    newErrors.email = 'Email is required';
-  } else if (!emailRegex.test(formData.email)) {
-    newErrors.email = 'Invalid email format';
-  }
+    // Email validation: required and valid format
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
 
-  // Password validation
-  if (!formData.password) {
-    newErrors.password = 'Password is required';
-  } else if (formData.password.length < 6) {
-    newErrors.password = 'Password must be at least 6 characters';
-  }
+    // Password validation: required and minimum length 6
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
 
-  // Phone Number validation
-  if (!formData.phoneCode.trim()) {
-    newErrors.phoneCode = 'Country code is required';
-  }
+    // Phone Code (Country code) validation: required
+    if (!formData.phoneCode.trim()) {
+      newErrors.phoneCode = 'Country code is required';
+    }
 
-  if (!formData.phoneNumber.trim()) {
-    newErrors.phoneNumber = 'Phone number is required';
-  } else if(formData.phoneNumber.length !== 10){
-    newErrors.phoneNumber='Contact number should be exactly 10 digits.';
-  }
-  
-  // Country validation
-  if (!formData.country) {
-    newErrors.country = 'Country is required';
-  }
+    // Phone Number validation: required and must be exactly 10 digits
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Phone number is required';
+    } else if(formData.phoneNumber.length !== 10){
+      newErrors.phoneNumber='Contact number should be exactly 10 digits.';
+    }
 
-  // City validation
-  if (!formData.city) {
-    newErrors.city = 'City is required';
-  }
+    // Country validation: required
+    if (!formData.country) {
+      newErrors.country = 'Country is required';
+    }
 
-  // PAN Number validation
-  if (!formData.panNumber.trim()) {
-    newErrors.panNumber = 'PAN number is required';
-  } else if (!panRegex.test(formData.panNumber)) {
-    newErrors.panNumber = 'Invalid PAN format';
-  }
+    // City validation: required
+    if (!formData.city) {
+      newErrors.city = 'City is required';
+    }
 
-  // Aadhar Number validation
-  if (!formData.aadharNumber.trim()) {
-    newErrors.aadharNumber = 'Aadhar number is required';
-  } else if (!aadharRegex.test(formData.aadharNumber)) {
-    newErrors.aadharNumber = 'Aadhar number must be 12 digits';
-  }
+    // PAN Number validation: required and must match PAN format
+    if (!formData.panNumber.trim()) {
+      newErrors.panNumber = 'PAN number is required';
+    } else if (!panRegex.test(formData.panNumber)) {
+      newErrors.panNumber = 'Invalid PAN format';
+    }
 
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
+    // Aadhar Number validation: required and must be exactly 12 digits
+    if (!formData.aadharNumber.trim()) {
+      newErrors.aadharNumber = 'Aadhar number is required';
+    } else if (!aadharRegex.test(formData.aadharNumber)) {
+      newErrors.aadharNumber = 'Aadhar number must be 12 digits';
+    }
 
+    // Update the errors state with any validation errors
+    setErrors(newErrors);
 
-  // Handle input changes
+    // Return true if no errors, else false
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Function to update form state on input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -127,15 +131,16 @@ const Form = () => {
     }));
   };
 
-  // Handle form submission
+  // Function to handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload on submit
     if (validateForm()) {
+      // If validation passes, mark form as submitted
       setIsSubmitted(true);
     }
   };
 
-  // If form is submitted successfully, show success page
+  // Render success message and submitted data after successful submission
   if (isSubmitted) {
     return (
       <div className="success-container">
@@ -157,10 +162,12 @@ const Form = () => {
     );
   }
 
+  // Render the form with all input fields and error messages
   return (
     <div className="form-container">
       <h2>Registration Form</h2>
       <form onSubmit={handleSubmit}>
+        {/* First Name Field */}
         <div className="form-group">
           <label>First Name:</label>
           <input
@@ -172,6 +179,7 @@ const Form = () => {
           {errors.firstName && <span className="error">{errors.firstName}</span>}
         </div>
 
+        {/* Last Name Field */}
         <div className="form-group">
           <label>Last Name:</label>
           <input
@@ -183,6 +191,7 @@ const Form = () => {
           {errors.lastName && <span className="error">{errors.lastName}</span>}
         </div>
 
+        {/* Username Field */}
         <div className="form-group">
           <label>Username:</label>
           <input
@@ -194,6 +203,7 @@ const Form = () => {
           {errors.username && <span className="error">{errors.username}</span>}
         </div>
 
+        {/* Email Field */}
         <div className="form-group">
           <label>Email:</label>
           <input
@@ -205,6 +215,7 @@ const Form = () => {
           {errors.email && <span className="error">{errors.email}</span>}
         </div>
 
+        {/* Password Field with show/hide toggle */}
         <div className="form-group">
           <label>Password:</label>
           <div className="password-input">
@@ -225,6 +236,7 @@ const Form = () => {
           {errors.password && <span className="error">{errors.password}</span>}
         </div>
 
+        {/* Phone Number Fields: country code and number */}
         <div className="form-group">
           <label>Phone Number:</label>
           <div className="phone-input">
@@ -250,6 +262,7 @@ const Form = () => {
           )}
         </div>
 
+        {/* Country dropdown */}
         <div className="form-group">
           <label>Country:</label>
           <select
@@ -267,6 +280,7 @@ const Form = () => {
           {errors.country && <span className="error">{errors.country}</span>}
         </div>
 
+        {/* City dropdown - options depend on country selected */}
         <div className="form-group">
           <label>City:</label>
           <select
@@ -295,6 +309,7 @@ const Form = () => {
           {errors.city && <span className="error">{errors.city}</span>}
         </div>
 
+        {/* PAN Number field */}
         <div className="form-group">
           <label>PAN Number:</label>
           <input
@@ -307,6 +322,7 @@ const Form = () => {
           {errors.panNumber && <span className="error">{errors.panNumber}</span>}
         </div>
 
+        {/* Aadhar Number field */}
         <div className="form-group">
           <label>Aadhar Number:</label>
           <input
@@ -319,10 +335,11 @@ const Form = () => {
           {errors.aadharNumber && <span className="error">{errors.aadharNumber}</span>}
         </div>
 
+        {/* Submit button */}
         <button type="submit" className="submit-button">Submit</button>
       </form>
     </div>
   );
 };
 
-export default Form; 
+export default Form;
