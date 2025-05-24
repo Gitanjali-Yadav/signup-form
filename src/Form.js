@@ -37,13 +37,6 @@ const Form = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Regular expressions redeclared here (could reuse above)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const usernameRegex = /^[a-z]+$/;
-    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    const aadharRegex = /^\d{12}$/;
-    const phoneAlphaRegex = /[a-zA-Z]/;
-
     // First Name validation: required and minimum length 2
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
